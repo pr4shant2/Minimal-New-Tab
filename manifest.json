@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Minimal New Tab",
+  "version": "1.0",
+  "description": "Premium, minimalistic new tab page with low resource usage.",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "host_permissions": [
+    "*://api.open-meteo.com/*",
+    "*://geocoding-api.open-meteo.com/*"
+  ],
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "16": "icon128.png",
+    "48": "icon128.png",
+    "128": "icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon128.png",
+      "48": "icon128.png",
+      "128": "icon128.png"
+    }
+  }
+}

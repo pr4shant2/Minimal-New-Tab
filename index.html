@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>New Tab</title>
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="stylesheet" href="styles.css">
+    <script src="quotes.js" defer></script>
+    <script src="script.js" defer></script>
+
+    <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
+    <link rel="dns-prefetch" href="https://api.open-meteo.com">
+
+    <script src="theme-init.js"></script>
+</head>
+<body>
+    <div class="bg-layer bg-light"></div>
+    <div class="bg-layer bg-dark"></div>
+    <div class="weather-widget" id="weather"></div>
+    <!-- Time Widget (Floating top-right) -->
+    <div class="time-widget">
+        <span id="time-hm">--:--</span>
+        <span id="time-ampm">--</span>
+    </div>
+    <div class="main-content">
+        <div class="greeting-text" id="greeting-text">&nbsp;</div>
+        <!-- Savage Quote Widget -->
+        <div class="quote-widget" id="quote-widget">
+            <span class="quote-mark left-mark">"</span>
+            <div class="quote-content">
+                <p class="quote-text" id="quote-text">ગણતરી ચાલુ છે, લોડા...</p>
+                <p class="quote-author" id="quote-author">- અજ્ઞાત</p>
+            </div>
+            <span class="quote-mark right-mark">"</span>
+        </div>
+    </div>
+
+    <!-- Year Progress Strip -->
+    <div class="year-progress-strip">
+        <div class="strip-top-row">
+            <span class="strip-date" id="strip-date">---</span>
+            <span class="strip-label" id="year-progress-label">Progress</span>
+            <span class="strip-value" id="year-progress-text">0.00%</span>
+        </div>
+        <div class="strip-bar-bg">
+            <div class="strip-bar-fill" id="year-progress-fill"></div>
+            <div class="strip-bar-ticks">
+                <div class="tick" style="left: 8.49%;"></div>
+                <div class="tick" style="left: 16.16%;"></div>
+                <div class="tick" style="left: 24.66%;"></div>
+                <div class="tick" style="left: 32.88%;"></div>
+                <div class="tick" style="left: 41.37%;"></div>
+                <div class="tick" style="left: 49.59%;"></div>
+                <div class="tick" style="left: 58.08%;"></div>
+                <div class="tick" style="left: 66.58%;"></div>
+                <div class="tick" style="left: 74.79%;"></div>
+                <div class="tick" style="left: 83.29%;"></div>
+                <div class="tick" style="left: 91.51%;"></div>
+            </div>
+        </div>
+        <div class="strip-months-row" id="strip-months-row">
+            <span data-month="0">January</span>
+            <span data-month="1">February</span>
+            <span data-month="2">March</span>
+            <span data-month="3">April</span>
+            <span data-month="4">May</span>
+            <span data-month="5">June</span>
+            <span data-month="6">July</span>
+            <span data-month="7">August</span>
+            <span data-month="8">September</span>
+            <span data-month="9">October</span>
+            <span data-month="10">November</span>
+            <span data-month="11">December</span>
+        </div>
+    </div>
+
+    <!-- Theme Toggle Moved to Bottom Center -->
+    <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Dark Mode">
+        <svg id="moon-icon" viewBox="0 0 24 24" width="12" height="12"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+        <svg id="sun-icon" viewBox="0 0 24 24" width="12" height="12"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41.39.39 1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41.39.39 1.03.39 1.41 0l1.06-1.06z"/></svg>
+    </button>
+
+    <!-- Settings Button (Bottom Right) -->
+    <button id="settings-open-btn" class="settings-open-btn" title="Open Settings">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+    </button>
+
+    <!-- Settings Modal Overlay -->
+    <div id="settings-modal" class="settings-modal hidden">
+        <div class="settings-container">
+            <button id="settings-close-btn" class="settings-close-btn" title="Close">✖</button>
+            <h1>⚙️ Settings</h1>
+            
+            <div class="form-group">
+                <label for="userName">Your Name (Greeting)</label>
+                <input type="text" id="userName" placeholder="e.g. Prashant" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="userCity">Your City (Weather)</label>
+                <input type="text" id="userCity" placeholder="e.g. Mumbai, London" autocomplete="off">
+                <small id="geo-status"></small>
+            </div>
+
+            <button id="saveBtn">Save Settings</button>
+            <div id="save-msg"></div>
+        </div>
+    </div>
+</body>
+</html>
